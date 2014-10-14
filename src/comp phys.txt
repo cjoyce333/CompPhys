@@ -1,0 +1,2 @@
+Python is interpretive language; it checks as you're working, goes through program line by line
+	Not compiled

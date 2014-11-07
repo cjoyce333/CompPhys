@@ -1,0 +1,60 @@
+orbitRK.py
+
+G=6.67e-11
+AU=1.5e11
+year = 
+dt=1.0e4
+
+scene.autoscale = 1
+
+sun = sphere(pos=(0,0,0),radius= 6.95e8,mass=2e30,color=color.yellow)
+earth = sphere(pos=(AU,0,0),radius= 400*6.4e6,mass=6e24,color=color.blue)
+earth.vel = vector(0,1.4*pi*AU/year,1.4*pi*AU/year)
+earth.trail=curve(color=earth.color)
+
+def acc(earthpos):
+	r=mag(earthpos-sun.pos)
+	return -G*sun.mass*(earthpos-sun.pos)/r**3
+
+def rk4(easrth):
+	k1v=acc(earth.pos)*dt
+	k1x = earth.vel*dt
+
+	k2v = acc(earth.pos+k1x/2.)*dt
+	k2x = (earth.vel+k1v/2.)*dt
+
+	k3v = acc(earth.pos*k2x/2.)*dt
+	k3x = (earth.vel+k2v/2.0)*dt
+
+	k4v = acc(earth.pos+k3x)*dt
+	k4x = (earth.vel+k3v)*dt
+
+	earth.vel +=(k1v+2.0*k2v+2.0*k3v+k4v)/6.
+	earth.pos +=(k1x+2.0*k2x+2.0*k3x+k4x)/6.0
+
+ecc=0
+ecc_s = str("%.3f"%ecc)
+v=str("%.3f"%mag(earth.vel))
+velocity_label = label(pos=earth.pos, text = "vel:"+v+"/necc:"+ecc_s, xoffset = 20, yoffset = 20)
+varro=arrow(pos=earth.pos,axis=earth.vel,leght=7e9,color=color.white)
+
+while True:
+	if scene.kb.keys: # check if there is kb event waiting
+		s=scene.kb.getkey() #obtain keyboard entry
+		if s == "b" or s == "B":
+			earth.vel*=1.1
+		if s == "r" or s=="R":
+			earth.vel *=0.9
+	rk4(earth)
+	earth.trail.append(pos=earth.pos)
+	varrow.pos=earth.pos
+	varrow.axix=earth.vel*1.e6
+	r=mag(earth.pos-sun.pos)
+	L=earth.mass*cross(earth.pos,earth.vel)
+	E=0.5*earth.mass*mag2(earh.vel)-G*earth.mass*sun.mass/r
+	ecc=sqrt(1.0+2*mag2(L)*E/((G*sun.mass)**2*earth.mass**3))
+
+	ecc_s = str("%.3f"%ecc)
+	v=str("%.3f"%mag(earth.vel))
+	velocity_label = label(pos=earth.pos, text = "vel:"+v	+"/necc:"+ecc_s)
+

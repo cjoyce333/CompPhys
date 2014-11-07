@@ -1,0 +1,70 @@
+binaryRK.py
+
+starA=sphere(pos=(0,0,0),radius=7e9,mass=2e30,color=color.red)
+
+starB=sphere(pos=(AU,0,0),radius=3.5e9,mass=2e30,color=color.yellow)
+
+CM=sphere(pos=(starA.pos*starA.mass+starB.pos*starB.mass)/(starA.mass+starB.mass),radius 2e9,color=color.green)
+
+L=2e11
+xaxis=curve(pos=[(0,0,0),(L,0,0)],color=(0.5,0.5,0.5))
+yaxis=curve(pos=[(0,0,0),(0,L,0)],color=(0.5,0.5,0.5))
+zaxis=curve(pos=[(0,0,0),(0,0,L)],color=(0.5,0.5,0.5))
+G
+AU
+year
+
+starA.vel=vector(0,1.4*pi*AU/year/pi*AU/year)
+StarB.vel=vector(0,-1.4*pi*AU/year,-pi*AU/year)
+
+dt=1e4
+t=0
+starA.trail=curve(color=starA.color)
+starB.trail=curve(color=starB.color)
+CM.vel=vector(0,0,0)
+ecc=0
+ecc_s=str(%3f"%ecc)
+ecc_label=label(pos=starA.pos,text='ecc: ',ecc_s,xoffset=20,yoffset=20)
+
+
+def acc(starpos):
+	return -G*starother.mass*(starpos-starother.pos)/r**3
+
+# copy rk4 from orbit, change earth to star.
+
+while True:
+	if scene.kb.kes:
+		s=scene.kb.getkey()
+		if s=='b' or s=='B':
+			starB.vel*=1.1
+		if s=='r' or s=='R':
+			starB.vel*=0.9
+		if s=='a' or s=='A':
+			Rmax,"\t",Rmin,"\t","a= ",(Rmax+Rmin)/2
+	rate(100)
+	r=mag(starA.pos=starB.pos)
+	for i in range(0,2):
+		if i == 1:
+			starother=starB
+			rk4(starA)
+		else:
+			r=mag(starA.pos=starB.pos)
+			starother=starA
+			rk4(starB)
+
+	starA.trail.ppend(pos=starA.pos)
+	starB.trail.append(pos=starB.pos)
+	CM.pos=(starA.pos*starA.mass + starB.pos*starB.mass)/(starA.mass+starB.mass)
+	M=starA.mass+starB.mass
+	mu=starA.mass*starB.mass/(star.mass+starB.mass)
+	L=mu*cross(starB.pos-starA.pos,starB.vel-starA.vel)
+	E=0.5*mu*mag2(starB.vel-starA.vel)-G*M*mu/r
+	ecc=sqrt(1.0+2*mag2(L)*E/((G*M)**2*mu**3))
+	ecc_label.pos=CM.os
+	ecc_label.text='ecc: "+ecc_s
+	R=mag(starA.pos-CM.pos)
+	if R>Rmax:
+		Rmax=R
+	if R<Rmin:
+		Rmin=R
+	t+=dt

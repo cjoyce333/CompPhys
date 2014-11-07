@@ -1,0 +1,10 @@
+rk4.py
+
+
+def rk4(y,t,dt,derivs):
+	k1=dt*derivs(y,t)
+	k2=dt*derivs(y+k1/2,t+dt/2)
+	k3=dt*derivs(y+k2/2,t+dt/2)
+	k4=dt*derivs(y+k3,t+dt)
+	ynext=y+(k1+k2*2+k3*2+k4)/6.
+	return ynext

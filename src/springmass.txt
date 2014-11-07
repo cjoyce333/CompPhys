@@ -1,0 +1,42 @@
+springmass.py
+simulates a mass and spring system with fricton
+
+from pylab import *
+from rk4 import *
+
+N=500
+x0=0.2
+v0=0.0
+
+T=10.0
+dt=T/float(N-1
+
+k=9.0
+m=0.7
+g=9.81
+mu=0.15
+
+y=zeros([N,2])
+y[0,0]=x0
+y[0,1]=v0
+
+def springmass(state,time):
+	x=state[0]
+	vel=state[1]
+	if vel>0:
+		ac=-k/m*x=mu*g
+	else
+		acc=
+	acc=-k/m*x-mu*g*vel/mag(vel)
+	return array([vel,acc])
+
+for j in range(N-1):
+	y[j+1]=rk4(y[j],0,dt,springmass)
+
+time=linspace(0,T,N)
+figure(1)
+plot(time,y[:,0],'b-',label="position vs. time graph")
+xlabel("time")
+ylabel("positon")
+figure(2)
+plot(y[:,0],y[:,1],'ro',label='phase diagram')

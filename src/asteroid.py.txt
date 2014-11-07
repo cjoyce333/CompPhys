@@ -1,0 +1,24 @@
+asteroidbelt.py
+
+from visual import *
+rom visual.graph import *
+from math import *
+
+G=6.67e-11
+AU=1.5e11
+year=365.25*24.*60*60
+r0=5.2*AU/pow(2.,2./3.) #initial positon of asteroid. Kepler's third law
+
+sun=sphere(pos=(0,0,0),radius=100*7e8,mass=2.e30,color=color.yellow)
+jupiter=(sphere(pos=5.2*AU,0,0),radius=8000.*6.4e6,mass=9.e25,color=color.red)
+jupiter.vel=vector(0,sqrt(G*sun.mass/(5.2*AU)))
+
+asteroidList=[]
+for i in range(0,400):
+	angle=uniform(0,2)*pi
+	asteroid=ellipsoid(pos=(r0*cos(angle),r0*sin	(angle),0),length=300*6.4e7,width=200*6.4e7,height=200*6.4e7,color=color.gray)
+	asteroid.vel=vector(sqrt(G*sun.mass/r0)*sin(angle),-sqrt(IG*sun.mass/r0)
+	asteroidList.append(asteroid)
+
+plot=gdisplay(x=0,y=400,height=400,width=600,title='r vs. t', )
+data=gdot(color=color.white)

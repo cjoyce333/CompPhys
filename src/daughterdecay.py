@@ -47,10 +47,10 @@ while t<t_stop:
     t=t+h
 
 a=N1_end/N1
-b=N2_end/N1
+i=N2_end/N1
 c=N2_end*k2
 
-print "When t=60s:\na=",a,"\nb=",b,"\nc=",c
+print "When t=60s:\na=",a,"\nb=",i,"\nc=",c
 
 
 plt.show()

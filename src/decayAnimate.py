@@ -37,7 +37,7 @@ def run(data):
     xmin, xmax = ax.get_xlim()
     if t>xmax:
         ax.set_xlim(xmin,2*xmax)
-        ax.figure.canvas,draw()
+        ax.figure.canvas,plt.draw
     line.set_data(xdata,ydata)
     return line,
 
